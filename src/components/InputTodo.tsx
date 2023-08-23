@@ -4,7 +4,10 @@ import axios from "axios";
 import { TodoItem } from "./TodoTaskType";
 import { apiBaseURL } from "../utils/apiBaseURL";
 
-export default function InputTodo() {
+interface InputTodoProps {
+  alertFn: () => void;
+}
+export default function InputTodo(props: InputTodoProps) {
   const [todoInput, setTodoInput] = useState<string>("");
 
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,6 +21,7 @@ export default function InputTodo() {
       setTodoInput("");
       // eslint-disable-next-line
       const response = await axios.post(apiBaseURL + "/todos", todoData);
+      props.alertFn();
     } catch (error) {
       console.error(getErrorMessage(error));
     }
